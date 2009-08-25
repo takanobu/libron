@@ -5,7 +5,7 @@
 // @include       http://*.amazon.*
 // ==/UserScript==
 
-// Version 20090801
+// Version 20090825
 
 var libraries = {
   'tokyo':{'group':'都', 'name':'都立図書館', 'code':'000441'},
@@ -123,7 +123,7 @@ function libraryLinky(){
 
 // Format ISBN like 4120031977 => 4-12-003197-7
 function formatIsbn(str) {
-  return str.replace(/(\d{1})(\d{2})(\d{6})(\d{1})/, "$1-$2-$3-$1");
+  return str.replace(/(\d{1})(\d{2})(\d{6})(\d{1})/, "$1-$2-$3-$4");
 }
 
 function checkLibrary(div, url){
