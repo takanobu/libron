@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name          libron
+// @name          librongk
 // @namespace     http://libron.net
-// @description	  Library Lookup from Amazon book listings. Currently supports libraries in Tokyo.
+// @description	  Library Lookup from Amazon book listings. Currently supports libraries in Tokyo. GreaseKit version. 
 // @include       http://*.amazon.*
 // ==/UserScript==
 
@@ -64,47 +64,57 @@ var libraries = {
   'mizuho':{'group':'町', 'name':'瑞穂町立図書館', 'code':'001013'}
 }
 
-var okIcon = 'data:image/png;base64,'+
-    'iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0'+
-    'U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAKfSURBVDjLpZPrS1NhHMf9O3bOdmwDCWRE'+
-    'IYKEUHsVJBI7mg3FvCxL09290jZj2EyLMnJexkgpLbPUanNOberU5taUMnHZUULMvelCtWF0sW/n'+
-    '7MVMEiN64AsPD8/n83uucQDi/id/DBT4Dolypw/qsz0pTMbj/WHpiDgsdSUyUmeiPt2+V7SrIM+b'+
-    'Sss8ySGdR4abQQv6lrui6VxsRonrGCS9VEjSQ9E7CtiqdOZ4UuTqnBHO1X7YXl6Daa4yGq7vWO1D'+
-    '40wVDtj4kWQbn94myPGkCDPdSesczE2sCZShwl8CzcwZ6NiUs6n2nYX99T1cnKqA2EKui6+TwphA'+
-    '5k4yqMayopU5mANV3lNQTBdCMVUA9VQh3GuDMHiVcLCS3J4jSLhCGmKCjBEx0xlshjXYhApfMZRP'+
-    '5CyYD+UkG08+xt+4wLVQZA1tzxthm2tEfD3JxARH7QkbD1ZuozaggdZbxK5kAIsf5qGaKMTY2lAU'+
-    '/rH5HW3PLsEwUYy+YCcERmIjJpDcpzb6l7th9KtQ69fi09ePUej9l7cx2DJbD7UrG3r3afQHOyCo'+
-    '+V3QQzE35pvQvnAZukk5zL5qRL59jsKbPzdheXoBZc4saFhBS6AO7V4zqCpiawuptwQG+UAa7Ct3'+
-    'UT0hh9p9EnXT5Vh6t4C22QaUDh6HwnECOmcO7K+6kW49DKqS2DrEZCtfuI+9GrNHg4fMHVSO5kE7'+
-    'nAPVkAxKBxcOzsajpS4Yh4ohUPPWKTUh3PaQEptIOr6BiJjcZXCwktaAGfrRIpwblqOV3YKdhfXO'+
-    'IvBLeREWpnd8ynsaSJoyESFphwTtfjN6X1jRO2+FxWtCWksqBApeiFIR9K6fiTpPiigDoadqCEag'+
-    '5YUFKl6Yrciw0VOlhOivv/Ff8wtn0KzlebrUYwAAAABJRU5ErkJggg==';
-
-var ngIcon = 'data:image/png;base64,'+
-    'iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0'+
-    'U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAHdSURBVDjLpZNraxpBFIb3a0ggISmmNISW'+
-    'XmOboKihxpgUNGWNSpvaS6RpKL3Ry//Mh1wgf6PElaCyzq67O09nVjdVlJbSDy8Lw77PmfecMwZg'+
-    '/I/GDw3DCo8HCkZl/RlgGA0e3Yfv7+DbAfLrW+SXOvLTG+SHV/gPbuMZRnsyIDL/OASziMxkkKkU'+
-    'QTJJsLaGn8/iHz6nd+8mQv87Ahg2H9Th/BxZqxEkEgSrq/iVCvLsDK9awtvfxb2zjD2ARID+lVVl'+
-    'babTgWYTv1rFL5fBUtHbbeTJCb3EQ3ovCnRC6xAgzJtOE+ztheYIEkqbFaS3vY2zuIj77AmtYYDu'+
-    'sPy8/zuvunJkDKXM7tYWTiyGWFjAqeQnAD6+7ueNx/FLpRGAru7mcoj5ebqzszil7DggeF/DX1nB'+
-    'N82rzPqrzbRayIsLhJqMPT2N83Sdy2GApwFqRN7jFPL0tF+10cDd3MTZ2AjNUkGCoyO6y9cRxfQo'+
-    'wFUbpufr1ct4ZoHg+Dg067zduTmEbq4yi/UkYidDe+kaTcP4ObJIajksPd/eyx3c+N2rvPbMDPbU'+
-    'FPZSLKzcGjKPrbJaDsu+dQO3msfZzeGY2TCvKGYQhdSYeeJjUt21dIcjXQ7U7Kv599f4j/oF55W4'+
-    'g/2e3b8AAAAASUVORK5CYII=';
-
+var availabilityImageUrl = 'http://libron.net/library/check';
 var libraryUrl = 'http://metro.tokyo.opac.jp/cgi-bin/j12crs2.cgi?partmod=0&frameid=0&srchmode=2&ccmp=FUZZY&scmp=SUBSTR&or_and02=AND&or_and03=AND&backimg=..%2Fcrsbackg.gif&headimg=logimg%2Fdefault.gif&inproxy=110&custuser=jcr004&custlogmod=1&bword0=&bword1=&bword2=&aword0=&aword1=&publisher=&fyear=&tyear=&maxhits=10&timeoutsec=60&isbn=';
 var selectedLibrary;
 
+/*
+  gm_functions
+*/
+
+if(typeof GM_getValue === "undefined") {
+  GM_getValue = function(name){
+    var nameEQ = escape("_greasekit" + name) + "=", ca = document.cookie.split(';');
+    for (var i = 0, c; i < ca.length; i++) { 
+      var c = ca[i]; 
+      while (c.charAt(0) == ' ') c = c.substring(1, c.length); 
+      if (c.indexOf(nameEQ) == 0) {
+        var value = unescape(c.substring(nameEQ.length, c.length));
+        return value;
+      }
+    } 
+    return null; 
+  }
+}
+
+if(typeof GM_setValue === "undefined") {
+  GM_setValue = function( name, value, options ){ 
+    options = (options || {}); 
+    if ( options.expiresInOneYear ){ 
+      var today = new Date();
+      options.expires = new Date(today.getFullYear()+1, today.getMonth(), today.getDate());
+    } 
+    var curCookie = escape("_greasekit" + name) + "=" + escape(value) + 
+    ((options.expires) ? "; expires=" + options.expires.toGMTString() : "") + 
+    ((options.path)    ? "; path="    + options.path : "") + 
+    ((options.domain)  ? "; domain="  + options.domain : "") + 
+    ((options.secure)  ? "; secure" : ""); 
+    document.cookie = curCookie; 
+  }
+}
+
+/*
+  end of gm_functions
+*/
+
 function libraryLinky(){
-  var href = document.location.href;
+  var href　=　document.location.href;
   var matched = href.match(/\/dp\/([\d\w]+)\/ref/);
   var s_index = href.indexOf('/s/')
   if (matched && matched[1]) {
     var isbn = matched[1];
     var div = document.getElementById('btAsinTitle').parentNode.parentNode;
-    var url = libraryUrl + formatIsbn(isbn) + '&sitechk' + libraries[selectedLibrary].code + '=on';
-    checkLibrary(div, url);
+    addLink(div, isbn);
   } else if (s_index != -1){
     var divs = document.getElementsByTagName('div');
     for (var i = 0; i < divs.length; i++) {
@@ -114,50 +124,19 @@ function libraryLinky(){
         var matched = link.href.match(/\/dp\/([\d\w]+)\/ref/);
         if (matched && matched[1]) {
           var isbn = matched[1];
-          var url = libraryUrl + formatIsbn(isbn) + '&sitechk' + libraries[selectedLibrary].code + '=on';
-          checkLibrary(div, url);
+          addLink(div, isbn);
         }
       }
     }
   }
 }
 
-// Format ISBN like 4120031977 => 4-12-003197-7
-function formatIsbn(str) {
-  return str.replace(/(\d{1})(\d{2})(\d{6})(\d{1})/, "$1-$2-$3-$4");
-}
-
-function checkLibrary(div, url){
-  GM_xmlhttpRequest({
-    method:"GET",
-    url: url,
-    onload:function(response){
-      if (response.responseText.match(/table/i)
-        || response.responseText.match(/1\. <a href=/i) // 港区立図書館
-        || response.responseText.match(/1\.<a href=/i) // 都立図書図書館
-        || response.responseText.match(/1\. \[\S*\] <a href=/i) // 江東区立図書館
-        || response.responseText.match(/1: <a href=/i)) // 八王子市立図書館
-      {
-        addLink(div, url);  
-      } else {        
-        addNALink(div, url);
-      }
-    }
-  });
-}
-
-function addLink(div, url) {
-  var link = document.createElement('div');
-  link.innerHTML = '<span style=\"font-size:90%; background-color:#ffffcc;\"><a href="' + url + '">&raquo; ' + libraries[selectedLibrary].name + 'で予約</a></span>' +
-    '<image src="' + okIcon + '">';  
-  div.appendChild(link);
-}
-
-function addNALink(div, url) {
-  var link = document.createElement('div');
-  link.innerHTML = '<span style=\"font-size:90%; background-color:#ffffcc;\"><a href="' + url + '">&raquo; ' + libraries[selectedLibrary].name + 'には見つかりません</a></span>' +
-    '<image src="' + ngIcon + '">';
-  div.appendChild(link);
+function addLink(div, isbn) {
+  var url = libraryUrl + isbn + '&sitechk' + libraries[selectedLibrary].code + '=on';
+  var imageUrl = availabilityImageUrl + '?isbn=' + isbn + '&library_code=' + libraries[selectedLibrary].code;
+  var library_link = document.createElement('div');
+  library_link.innerHTML = '<span style=\"font-size:90%; background-color:#ffffcc;\"><a href="' + url + '">&raquo; ' + libraries[selectedLibrary].name + 'で予約</a></span><img src="' + imageUrl +'">';
+  div.appendChild(library_link); 
 }
 
 function addSelectBox() {
@@ -227,7 +206,7 @@ function addSelectBox() {
 }
 
 function saveLibrary(value){
-  GM_setValue("library", value);
+  GM_setValue("library", value, {'expiresInOneYear':true, 'path':'/'});
   window.location.reload();
 }
 
