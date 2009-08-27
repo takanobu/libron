@@ -109,7 +109,7 @@ if(typeof GM_setValue === "undefined") {
 
 function libraryLinky(){
   var href　=　document.location.href;
-  var matched = href.match(/\/dp\/([\d\w]+)\/ref/);
+  var matched = href.match(/\/dp\/([\d\w]+)/);
   var s_index = href.indexOf('/s/')
   if (matched && matched[1]) {
     var isbn = matched[1];
