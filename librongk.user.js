@@ -2,10 +2,10 @@
 // @name          librongk
 // @namespace     http://libron.net
 // @description	  Library Lookup from Amazon book listings. Currently supports libraries in Tokyo. GreaseKit version. 
-// @include       http://*.amazon.*
+// @include       http://www.amazon.*
 // ==/UserScript==
 
-// Version 20090825
+var version = "1.1";
 
 var libraries = {
   'tokyo':{'group':'都', 'name':'都立図書館', 'code':'000441'},
@@ -107,47 +107,18 @@ if(typeof GM_setValue === "undefined") {
   end of gm_functions
 */
 
-function libraryLinky(){
-  var href　=　document.location.href;
-  var matched = href.match(/\/dp\/([\d\w]+)/);
-  var s_index = href.indexOf('/s/')
-  if (matched && matched[1]) {
-    var isbn = matched[1];
-    var div = document.getElementById('btAsinTitle').parentNode.parentNode;
-    addLink(div, isbn);
-  } else if (s_index != -1){
-    var divs = document.getElementsByTagName('div');
-    for (var i = 0; i < divs.length; i++) {
-      var div = divs[i];
-      if (div.className.indexOf("productTitle") != -1) {
-        var link = div.getElementsByTagName('a')[0];
-        var matched = link.href.match(/\/dp\/([\d\w]+)\/ref/);
-        if (matched && matched[1]) {
-          var isbn = matched[1];
-          addLink(div, isbn);
-        }
-      }
-    }
-  }
-}
-
-function addLink(div, isbn) {
-  var url = libraryUrl + isbn + '&sitechk' + libraries[selectedLibrary].code + '=on';
-  var imageUrl = availabilityImageUrl + '?isbn=' + isbn + '&library_code=' + libraries[selectedLibrary].code;
-  var library_link = document.createElement('div');
-  library_link.innerHTML = '<span style=\"font-size:90%; background-color:#ffffcc;\"><a href="' + url + '">&raquo; ' + libraries[selectedLibrary].name + 'で予約</a></span><img src="' + imageUrl +'">';
-  div.appendChild(library_link); 
+function initialize() {
+  selectedLibrary = GM_getValue("library") || 'tokyo';
 }
 
 function addSelectBox() {
-  selectedLibrary = GM_getValue("library");
   var div = document.createElement("div");
   div.style.textAlign = "right";
   div.style.backgroundColor = "#ffffcc";
   div.style.padding = "3px 0 3px 0";
 
   var titleSpan = document.createElement("span");
-  titleSpan.innerHTML = "Libron(Amazonから図書館蔵書検索)";
+  titleSpan.innerHTML = "Libron(Amazonから図書館蔵書検索) ver." + version;
   titleSpan.style.fontWeight = "bold";
   
   var select = document.createElement("select");
@@ -205,10 +176,42 @@ function addSelectBox() {
   btn.addEventListener("click", function(){saveLibrary(select.value);}, false);
 }
 
+function libraryLinky(){
+  var href　=　document.location.href;
+  var matched = href.match(/\/(dp|ASIN|product)\/([\dX]{10})/);
+  if (matched && matched[2]) {
+    var isbn = matched[2];
+    var div = document.getElementById('btAsinTitle').parentNode.parentNode;
+    addLink(div, isbn);
+  } else if ((href.indexOf('/s/') != -1) || (href.indexOf('/exec/') != -1)){
+    var divs = document.getElementsByTagName('div');
+    for (var i = 0; i < divs.length; i++) {
+      var div = divs[i];
+      if (div.className.indexOf("productTitle") != -1) {
+        var link = div.getElementsByTagName('a')[0];
+        var matched = link.href.match(/\/dp\/([\dX]{10})\/ref/);
+        if (matched && matched[1]) {
+          var isbn = matched[1];
+          addLink(div, isbn);
+        }
+      }
+    }
+  }
+}
+
+function addLink(div, isbn) {
+  var url = libraryUrl + isbn + '&sitechk' + libraries[selectedLibrary].code + '=on';
+  var imageUrl = availabilityImageUrl + '?isbn=' + isbn + '&library_code=' + libraries[selectedLibrary].code;
+  var library_link = document.createElement('div');
+  library_link.innerHTML = '<span style=\"font-size:90%; background-color:#ffffcc;\"><a href="' + url + '">&raquo; ' + libraries[selectedLibrary].name + 'で予約</a></span><img src="' + imageUrl +'">';
+  div.appendChild(library_link);
+}
+
 function saveLibrary(value){
   GM_setValue("library", value, {'expiresInOneYear':true, 'path':'/'});
   window.location.reload();
 }
 
+initialize();
 addSelectBox();
 libraryLinky();

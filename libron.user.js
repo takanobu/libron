@@ -2,10 +2,10 @@
 // @name          libron
 // @namespace     http://libron.net
 // @description	  Library Lookup from Amazon book listings. Currently supports libraries in Tokyo.
-// @include       http://*.amazon.*
+// @include       http://www.amazon.*
 // ==/UserScript==
 
-// Version 20090825
+var version = "1.1";
 
 var libraries = {
   'tokyo':{'group':'都', 'name':'都立図書館', 'code':'000441'},
@@ -96,79 +96,18 @@ var ngIcon = 'data:image/png;base64,'+
 var libraryUrl = 'http://metro.tokyo.opac.jp/cgi-bin/j12crs2.cgi?partmod=0&frameid=0&srchmode=2&ccmp=FUZZY&scmp=SUBSTR&or_and02=AND&or_and03=AND&backimg=..%2Fcrsbackg.gif&headimg=logimg%2Fdefault.gif&inproxy=110&custuser=jcr004&custlogmod=1&bword0=&bword1=&bword2=&aword0=&aword1=&publisher=&fyear=&tyear=&maxhits=10&timeoutsec=60&isbn=';
 var selectedLibrary;
 
-function libraryLinky(){
-  var href = document.location.href;
-  var matched = href.match(/\/dp\/([\d\w]+)/);
-  var s_index = href.indexOf('/s/')
-  if (matched && matched[1]) {
-    var isbn = matched[1];
-    var div = document.getElementById('btAsinTitle').parentNode.parentNode;
-    var url = libraryUrl + formatIsbn(isbn) + '&sitechk' + libraries[selectedLibrary].code + '=on';
-    checkLibrary(div, url);
-  } else if (s_index != -1){
-    var divs = document.getElementsByTagName('div');
-    for (var i = 0; i < divs.length; i++) {
-      var div = divs[i];
-      if (div.className.indexOf("productTitle") != -1) {
-        var link = div.getElementsByTagName('a')[0];
-        var matched = link.href.match(/\/dp\/([\d\w]+)\/ref/);
-        if (matched && matched[1]) {
-          var isbn = matched[1];
-          var url = libraryUrl + formatIsbn(isbn) + '&sitechk' + libraries[selectedLibrary].code + '=on';
-          checkLibrary(div, url);
-        }
-      }
-    }
-  }
-}
-
-// Format ISBN like 4120031977 => 4-12-003197-7
-function formatIsbn(str) {
-  return str.replace(/(\d{1})(\d{2})(\d{6})(\d{1})/, "$1-$2-$3-$4");
-}
-
-function checkLibrary(div, url){
-  GM_xmlhttpRequest({
-    method:"GET",
-    url: url,
-    onload:function(response){
-      if (response.responseText.match(/table/i)
-        || response.responseText.match(/1\. <a href=/i) // 港区立図書館
-        || response.responseText.match(/1\.<a href=/i) // 都立図書図書館
-        || response.responseText.match(/1\. \[\S*\] <a href=/i) // 江東区立図書館
-        || response.responseText.match(/1: <a href=/i)) // 八王子市立図書館
-      {
-        addLink(div, url);  
-      } else {        
-        addNALink(div, url);
-      }
-    }
-  });
-}
-
-function addLink(div, url) {
-  var link = document.createElement('div');
-  link.innerHTML = '<span style=\"font-size:90%; background-color:#ffffcc;\"><a href="' + url + '">&raquo; ' + libraries[selectedLibrary].name + 'で予約</a></span>' +
-    '<image src="' + okIcon + '">';  
-  div.appendChild(link);
-}
-
-function addNALink(div, url) {
-  var link = document.createElement('div');
-  link.innerHTML = '<span style=\"font-size:90%; background-color:#ffffcc;\"><a href="' + url + '">&raquo; ' + libraries[selectedLibrary].name + 'には見つかりません</a></span>' +
-    '<image src="' + ngIcon + '">';
-  div.appendChild(link);
+function initialize() {
+  selectedLibrary = GM_getValue("library") || 'tokyo';
 }
 
 function addSelectBox() {
-  selectedLibrary = GM_getValue("library");
   var div = document.createElement("div");
   div.style.textAlign = "right";
   div.style.backgroundColor = "#ffffcc";
   div.style.padding = "3px 0 3px 0";
 
   var titleSpan = document.createElement("span");
-  titleSpan.innerHTML = "Libron(Amazonから図書館蔵書検索)";
+  titleSpan.innerHTML = "Libron(Amazonから図書館蔵書検索) ver." + version;
   titleSpan.style.fontWeight = "bold";
   
   var select = document.createElement("select");
@@ -226,10 +165,74 @@ function addSelectBox() {
   btn.addEventListener("click", function(){saveLibrary(select.value);}, false);
 }
 
+function libraryLinky(){
+  var href = document.location.href;
+  var matched = href.match(/\/(dp|ASIN|product)\/([\dX]{10})/);
+  if (matched && matched[2]) {
+    var isbn = matched[2];
+    var div = document.getElementById('btAsinTitle').parentNode.parentNode;
+    var url = libraryUrl + formatIsbn(isbn) + '&sitechk' + libraries[selectedLibrary].code + '=on';
+    checkLibrary(div, url);
+  } else if ((href.indexOf('/s/') != -1) || (href.indexOf('/exec/') != -1)){
+    var divs = document.getElementsByTagName('div');
+    for (var i = 0; i < divs.length; i++) {
+      var div = divs[i];
+      if (div.className.indexOf("productTitle") != -1) {
+        var link = div.getElementsByTagName('a')[0];
+        var matched = link.href.match(/\/dp\/([\dX]{10})\/ref/);
+        if (matched && matched[1]) {
+          var isbn = matched[1];
+          var url = libraryUrl + formatIsbn(isbn) + '&sitechk' + libraries[selectedLibrary].code + '=on';
+          checkLibrary(div, url);
+        }
+      }
+    }
+  }
+}
+
+// Format ISBN like 4120031977 => 4-12-003197-7
+function formatIsbn(str) {
+  return str.replace(/(\d{1})(\d{2})(\d{6})(\d{1})/, "$1-$2-$3-$4");
+}
+
+function checkLibrary(div, url){
+  GM_xmlhttpRequest({
+    method:"GET",
+    url: url,
+    onload:function(response){
+      if (response.responseText.match(/table/i)
+        || response.responseText.match(/1\. <a href=/i) // 港区立図書館
+        || response.responseText.match(/1\.<a href=/i) // 都立図書図書館
+        || response.responseText.match(/1\. \[\S*\] <a href=/i) // 江東区立図書館
+        || response.responseText.match(/1: <a href=/i)) // 八王子市立図書館
+      {
+        addLink(div, url);
+      } else {
+        addNALink(div, url);
+      }
+    }
+  });
+}
+
+function addLink(div, url) {
+  var link = document.createElement('div');
+  link.innerHTML = '<span style=\"font-size:90%; background-color:#ffffcc;\"><a href="' + url + '">&raquo; ' + libraries[selectedLibrary].name + 'で予約</a></span>' +
+    '<image src="' + okIcon + '">';
+  div.appendChild(link);
+}
+
+function addNALink(div, url) {
+  var link = document.createElement('div');
+  link.innerHTML = '<span style=\"font-size:90%; background-color:#ffffcc;\"><a href="' + url + '">&raquo; ' + libraries[selectedLibrary].name + 'には見つかりません</a></span>' +
+    '<image src="' + ngIcon + '">';
+  div.appendChild(link);
+}
+
 function saveLibrary(value){
   GM_setValue("library", value);
   window.location.reload();
 }
 
+initialize();
 addSelectBox();
 libraryLinky();
