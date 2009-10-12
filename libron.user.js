@@ -1,68 +1,21 @@
 // ==UserScript==
 // @name          libron
 // @namespace     http://libron.net
-// @description	  Library Lookup from Amazon book listings. Currently supports libraries in Tokyo.
+// @description	  Library Lookup from Amazon book listings. Currently supports libraries in Tokyo and Osaka.
+// @author        junya@champierre.com
 // @include       http://www.amazon.*
+// @require       http://github.com/champierre/libron/raw/master/libron.tokyo.js
+// @require       http://github.com/champierre/libron/raw/master/libron.osaka.js
+// using [ simple version of $X   ] (c) id:os0x
+//       [ relativeToAbsolutePath ] (c) id:Yuichirou
+//       [ parseHTML              ] copied from Pagerization (c) id:ofk
+// merged libron Osaka version (http://github.com/negachov/libron)
+// thanks
 // ==/UserScript==
 
-var version = "1.1";
-
-var libraries = {
-  'tokyo':{'group':'都', 'name':'都立図書館', 'code':'000441'},
-  'adachi':{'group':'区', 'name':'足立区立図書館', 'code':'000610'},
-  'arakawa':{'group':'区', 'name':'荒川区立図書館', 'code':'001047'},
-  'itabashi':{'group':'区', 'name':'板橋区立図書館', 'code':'000618'},
-  'edogawa':{'group':'区', 'name':'江戸川区立図書館', 'code':'001060'},
-  'ota':{'group':'区', 'name':'大田区立図書館', 'code':'001052'},
-  'katsushika':{'group':'区', 'name':'葛飾区立図書館', 'code':'001049'},
-  'kita':{'group':'区', 'name':'北区立図書館', 'code':'000616'},
-  'koto':{'group':'区', 'name':'江東区立図書館', 'code':'001090'},
-  'shinagawa':{'group':'区', 'name':'品川区立図書館', 'code':'000195'},
-  'shibuya':{'group':'区', 'name':'渋谷区立図書館', 'code':'001032'},
-  'shinjuku':{'group':'区', 'name':'新宿区立図書館', 'code':'001005'},
-  'suginami':{'group':'区', 'name':'杉並区立図書館', 'code':'000613'},
-  'sumida':{'group':'区', 'name':'墨田区立図書館', 'code':'000188'},
-  'setagaya':{'group':'区', 'name':'世田谷区立図書館', 'code':'001048'},
-  'taito':{'group':'区', 'name':'台東区立図書館', 'code':'001002'},
-  'chuo':{'group':'区', 'name':'中央区立図書館', 'code': '001044'},
-  'chiyoda':{'group':'区', 'name':'千代田区立図書館', 'code':'001006'},
-  'toshima':{'group':'区', 'name':'豊島区立図書館', 'code':'001041'},
-  'nakano':{'group':'区', 'name':'中野区立図書館', 'code':'001033'},
-  'nerima':{'group':'区', 'name':'練馬区立図書館', 'code':'001046'},
-  'bunkyo':{'group':'区', 'name':'文京区立図書館', 'code':'001120'},
-  'minato':{'group':'区', 'name':'港区立図書館', 'code': '000617'},
-  'meguro':{'group':'区', 'name':'目黒区立図書館', 'code':'001070'},
-  'akishima':{'group':'市', 'name':'昭島市立図書館', 'code':'001042'},
-  'akiruno':{'group':'市', 'name':'あきる野市市立図書館', 'code':'001011'},
-  'inagi':{'group':'市', 'name':'稲城市立図書館', 'code':'001122'},
-  'oume':{'group':'市', 'name':'青梅市立図書館', 'code':'001012'},
-  'kiyose':{'group':'市', 'name':'清瀬市立図書館', 'code':'001003'},
-  'kunitachi':{'group':'市', 'name':'くにたち図書館', 'code':'001091'},
-  'koganei':{'group':'市', 'name':'小金井市立図書館', 'code':'001121'},
-  'kokubunji':{'group':'市', 'name':'国分寺市立図書館', 'code':'000909'},
-  'kodaira':{'group':'市', 'name':'小平市立図書館', 'code':'001045'},
-  'komae':{'group':'市', 'name':'狛江市立図書館', 'code':'000191'},
-  'tachikawa':{'group':'市', 'name':'立川市立図書館', 'code':'000906'},
-  'tama':{'group':'市', 'name':'多摩市立図書館', 'code':'001051'},
-  'chofu':{'group':'市', 'name':'調布市立図書館', 'code':'001042'},
-  'nishitokyo':{'group':'市', 'name':'西東京市立図書館', 'code':'001043'},
-  'hachioji':{'group':'市', 'name':'八王子市立図書館', 'code':'000196'},
-  'hamura':{'group':'市', 'name':'羽村市立図書館', 'code':'000198'},
-  'higashikurume':{'group':'市', 'name':'東久留米市立図書館', 'code':'000619'},
-  'higashimurayama':{'group':'市', 'name':'東村山市立図書館', 'code':'001035'},
-  'higashiyamato':{'group':'市', 'name':'東大和市立図書館', 'code':'000908'},
-  'hino':{'group':'市', 'name':'日野市立図書館', 'code':'000614'},
-  'fuchu':{'group':'市', 'name':'府中市立図書館', 'code':'000615'},
-  'fussa':{'group':'市', 'name':'福生市立図書館', 'code':'000193'},
-  'machida':{'group':'市', 'name':'町田市立図書館', 'code':'000910'},
-  'mitaka':{'group':'市', 'name':'三鷹市立図書館', 'code':'000166'},
-  'musashino':{'group':'市', 'name':'武蔵野市立図書館', 'code':'000194'},
-  'musahimurayama':{'group':'市', 'name':'武蔵村山市立図書館', 'code':'000907'},
-  'musashino':{'group':'市', 'name':'武蔵野市立図書館', 'code':'000194'},
-  'okutama':{'group':'町', 'name':'奥多摩町立図書館', 'code':'000251'},
-  'hinode':{'group':'町', 'name':'日の出町立図書館', 'code':'001004'},
-  'mizuho':{'group':'町', 'name':'瑞穂町立図書館', 'code':'001013'}
-}
+var libron = libron ? libron : new Object();
+libron.version = "1.2";
+libron.prefectures = ['tokyo', 'osaka'];
 
 var okIcon = 'data:image/png;base64,'+
     'iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0'+
@@ -93,10 +46,11 @@ var ngIcon = 'data:image/png;base64,'+
     'FPZSLKzcGjKPrbJaDsu+dQO3msfZzeGY2TCvKGYQhdSYeeJjUt21dIcjXQ7U7Kv599f4j/oF55W4'+
     'g/2e3b8AAAAASUVORK5CYII=';
 
-var libraryUrl = 'http://metro.tokyo.opac.jp/cgi-bin/j12crs2.cgi?partmod=0&frameid=0&srchmode=2&ccmp=FUZZY&scmp=SUBSTR&or_and02=AND&or_and03=AND&backimg=..%2Fcrsbackg.gif&headimg=logimg%2Fdefault.gif&inproxy=110&custuser=jcr004&custlogmod=1&bword0=&bword1=&bword2=&aword0=&aword1=&publisher=&fyear=&tyear=&maxhits=10&timeoutsec=60&isbn=';
 var selectedLibrary;
+var selectedPrefecture;
 
 function initialize() {
+  selectedPrefecture = GM_getValue("prefecture") || 'tokyo';
   selectedLibrary = GM_getValue("library") || 'tokyo';
 }
 
@@ -107,62 +61,73 @@ function addSelectBox() {
   div.style.padding = "3px 0 3px 0";
 
   var titleSpan = document.createElement("span");
-  titleSpan.innerHTML = "Libron(Amazonから図書館蔵書検索) ver." + version;
+  titleSpan.innerHTML = "Libron(Amazonから図書館蔵書検索) ver." + libron.version;
   titleSpan.style.fontWeight = "bold";
   
-  var select = document.createElement("select");
-  select.style.marginLeft = "10px";
-  var i = 0;
-  
-  var toGroup = document.createElement('optgroup');
-  toGroup.label = "都";
-  
-  var kuGroup = document.createElement('optgroup');
-  kuGroup.label = "区";
+  var prefectureSelect = document.createElement("select");
+  prefectureSelect.style.marginLeft = "10px";
 
-  var shiGroup = document.createElement('optgroup');
-  shiGroup.label = "市";
-
-  var choGroup = document.createElement('optgroup');
-  choGroup.label = "町";
-  
-  for (var k in libraries) {
+  for (var i in libron.prefectures) {    
     var option = document.createElement('option');
-    option.value = k;
-    option.innerHTML = libraries[k]['name'];
-    
-    if (k == selectedLibrary) {
+    option.value = libron.prefectures[i];
+    option.innerHTML = libron[libron.prefectures[i]].name;
+    if (libron.prefectures[i] == selectedPrefecture) {
       option.selected = true;
     }
-    
-    if (libraries[k]['group'] == '都') {
-      toGroup.appendChild(option);
-    } else if (libraries[k]['group'] == '区')  {
-      kuGroup.appendChild(option);
-    } else if (libraries[k]['group'] == '市')  {
-      shiGroup.appendChild(option);
-    } else if (libraries[k]['group'] == '町')  {
-      choGroup.appendChild(option);
-    }
-    
-    i++;
+    prefectureSelect.appendChild(option);
   }
 
-  select.appendChild(toGroup);
-  select.appendChild(kuGroup);
-  select.appendChild(shiGroup);
-  select.appendChild(choGroup);
+  var select = createLibrarySelectBox(selectedPrefecture);
   
+  prefectureSelect.addEventListener("change", function(){
+    selectedPrefecture = prefectureSelect.value;
+    savePrefecture(prefectureSelect.value);
+    div.replaceChild(createLibrarySelectBox(prefectureSelect.value), div.childNodes[2]);
+  }, false);
+
   var btn = document.createElement("button");
   btn.style.marginLeft = "10px";
   btn.innerHTML = "保存";
 
   div.appendChild(titleSpan);
+  div.appendChild(prefectureSelect);
   div.appendChild(select);
   div.appendChild(btn);  
   document.body.insertBefore(div, document.body.childNodes[0]);
   
-  btn.addEventListener("click", function(){saveLibrary(select.value);}, false);
+  btn.addEventListener("click", function(){
+    saveLibrary(div.childNodes[2].value);
+    window.location.reload();
+  }, false);
+}
+
+function createLibrarySelectBox(prefecture) {
+  var select = document.createElement("select");
+  select.style.marginLeft = "10px";
+  
+  var optGroups = {};
+  for (var i in libron[prefecture].groups) {
+    optGroups[libron[prefecture]['groups'][i]] = document.createElement('optgroup');
+    optGroups[libron[prefecture]['groups'][i]].label = libron[prefecture]['groups'][i];
+  }
+
+  for (var k in libron[prefecture].libraries) {
+    var option = document.createElement('option');
+    option.value = k;
+    option.innerHTML = libron[prefecture].libraries[k]['name'];
+    
+    if (k == selectedLibrary) {
+      option.selected = true;
+    }
+    
+    optGroups[libron[prefecture].libraries[k]['group']].appendChild(option);  
+  }
+
+  for (var i in libron[prefecture].groups) {
+    select.appendChild(optGroups[libron[prefecture]['groups'][i]]);
+  }
+
+  return select;
 }
 
 function libraryLinky(){
@@ -171,8 +136,7 @@ function libraryLinky(){
   if (matched && matched[2]) {
     var isbn = matched[2];
     var div = document.getElementById('btAsinTitle').parentNode.parentNode;
-    var url = libraryUrl + formatIsbn(isbn) + '&sitechk' + libraries[selectedLibrary].code + '=on';
-    checkLibrary(div, url);
+    libron[selectedPrefecture].checkLibrary(div, formatIsbn(isbn));
   } else if ((href.indexOf('/s/') != -1) || (href.indexOf('/exec/') != -1)){
     var divs = document.getElementsByTagName('div');
     for (var i = 0; i < divs.length; i++) {
@@ -182,8 +146,7 @@ function libraryLinky(){
         var matched = link.href.match(/\/dp\/([\dX]{10})\/ref/);
         if (matched && matched[1]) {
           var isbn = matched[1];
-          var url = libraryUrl + formatIsbn(isbn) + '&sitechk' + libraries[selectedLibrary].code + '=on';
-          checkLibrary(div, url);
+          libron[selectedPrefecture].checkLibrary(div, formatIsbn(isbn));          
         }
       }
     }
@@ -192,45 +155,98 @@ function libraryLinky(){
 
 // Format ISBN like 4120031977 => 4-12-003197-7
 function formatIsbn(str) {
-  return str.replace(/(\d{1})(\d{2})(\d{6})(\d{1})/, "$1-$2-$3-$4");
+  return str.replace(/(\d{1})(\d{2})(\d{6})([\d{1}X])/, "$1-$2-$3-$4");
 }
 
-function checkLibrary(div, url){
-  GM_xmlhttpRequest({
-    method:"GET",
-    url: url,
-    onload:function(response){
-      if (response.responseText.match(/table/i)
-        || response.responseText.match(/1\. <a href=/i) // 港区立図書館
-        || response.responseText.match(/1\.<a href=/i) // 都立図書図書館
-        || response.responseText.match(/1\. \[\S*\] <a href=/i) // 江東区立図書館
-        || response.responseText.match(/1: <a href=/i)) // 八王子市立図書館
-      {
-        addLink(div, url);
-      } else {
-        addNALink(div, url);
-      }
-    }
+function parseHTML(str) {
+  str = str.replace(parseHTML.reg, '');
+  var res = document.implementation.createDocument(null, 'html', null);
+  var range = document.createRange();
+  range.setStartAfter(document.body);
+  var fragment = range.createContextualFragment(str);
+  try {
+    fragment = res.adoptNode(fragment); //for Firefox3 beta4
+  } catch (e) {
+    fragment = res.importNode(fragment, true);
+  }
+  res.documentElement.appendChild(fragment);
+  return res;
+}
+parseHTML.reg = /^[\s\S]*?<html(?:\s[^>]+?)?>|<\/html\s*>[\S\s]*$/ig;
+
+function relativeToAbsolutePath(htmldoc, base){
+  var resolver = path_resolver(base);
+
+  $X("descendant-or-self::a", htmldoc)
+    .forEach(function(elm) {
+    if(elm.getAttribute("href")) elm.href = resolver(elm.getAttribute("href"));
   });
+  $X("descendant-or-self::img", htmldoc)
+    .forEach(function(elm) {
+    if(elm.getAttribute("src")) elm.src = resolver(elm.getAttribute("src"));
+  });
+  $X("descendant-or-self::embed", htmldoc)
+    .forEach(function(elm) {
+    if(elm.getAttribute("src")) elm.src = resolver(elm.getAttribute("src"));
+  });
+  $X("descendant-or-self::object", htmldoc)
+    .forEach(function(elm) {
+    if(elm.getAttribute("data")) elm.data = resolver(elm.getAttribute("data"));
+  });
+}
+
+function path_resolver(base){
+  var XHTML_NS = "http://www.w3.org/1999/xhtml"
+  var XML_NS   = "http://www.w3.org/XML/1998/namespace"
+  var a = document.createElementNS(XHTML_NS, 'a')
+  a.setAttributeNS(XML_NS, 'xml:base', base)
+  return function(url){
+    a.href = url;
+    return a.href;
+  }
+}
+
+function $X (exp, context) {
+	context || (context = document);
+	var expr = (context.ownerDocument || context).createExpression(exp, function (prefix) {
+		return document.createNSResolver(context.documentElement || context).lookupNamespaceURI(prefix) ||
+			context.namespaceURI || document.documentElement.namespaceURI || "";
+	});
+
+	var result = expr.evaluate(context, XPathResult.ANY_TYPE, null);
+		switch (result.resultType) {
+			case XPathResult.STRING_TYPE : return result.stringValue;
+			case XPathResult.NUMBER_TYPE : return result.numberValue;
+			case XPathResult.BOOLEAN_TYPE: return result.booleanValue;
+			case XPathResult.UNORDERED_NODE_ITERATOR_TYPE:
+				// not ensure the order.
+				var ret = [], i = null;
+				while (i = result.iterateNext()) ret.push(i);
+				return ret;
+		}
+	return null;
 }
 
 function addLink(div, url) {
   var link = document.createElement('div');
-  link.innerHTML = '<span style=\"font-size:90%; background-color:#ffffcc;\"><a href="' + url + '">&raquo; ' + libraries[selectedLibrary].name + 'で予約</a></span>' +
+  link.innerHTML = '<span style=\"font-size:90%; background-color:#ffffcc;\"><a target="_blank" href="' + url + '">&raquo; ' + libron[selectedPrefecture].libraries[selectedLibrary].name + 'で予約</a></span>' +
     '<image src="' + okIcon + '">';
   div.appendChild(link);
 }
 
 function addNALink(div, url) {
   var link = document.createElement('div');
-  link.innerHTML = '<span style=\"font-size:90%; background-color:#ffffcc;\"><a href="' + url + '">&raquo; ' + libraries[selectedLibrary].name + 'には見つかりません</a></span>' +
+  link.innerHTML = '<span style=\"font-size:90%; background-color:#ffffcc;\"><a target="_blank" href="' + url + '">&raquo; ' + libron[selectedPrefecture].libraries[selectedLibrary].name + 'には見つかりません</a></span>' +
     '<image src="' + ngIcon + '">';
   div.appendChild(link);
 }
 
+function savePrefecture(value){
+  GM_setValue("prefecture", value);
+}
+
 function saveLibrary(value){
   GM_setValue("library", value);
-  window.location.reload();
 }
 
 initialize();
