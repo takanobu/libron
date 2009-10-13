@@ -33,7 +33,7 @@ libron.kyoto = {
     var isbnWithoutHyphen = formattedIsbn.replace(/(\d{1})-(\d{2})-(\d{6})-([\d{1}X])/, "$1$2$3$4");
 
     var url = 'https://www.kyotocitylib.jp/cgi-bin/Sopcsken.sh?p_mode=1&g_mode=0&ryno=&c_keye=&value=&list_cnt=10&mad_list_cnt=&brws=ncdet&ktyp9=shk|atk|spk|kek&itfg9=c&ser_type=0&stkb=&tgid=tyo:010A&sgid=spno&srsl1=1&srsl2=2&srsl3=3&tkey=' + isbnWithoutHyphen + '&lckns=' + libron[selectedPrefecture].libraries[selectedLibrary].code;
-    libron.tokyo._checkLibrary(div, url);
+    libron.kyoto._checkLibrary(div, url);
   },
   _checkLibrary: function(div, url) {
     GM_xmlhttpRequest({
