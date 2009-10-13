@@ -30,7 +30,9 @@ libron.kyoto = {
   'shi':{'group':'市', 'name':'京都市図書館', 'code':'01&lckns=02&lckns=33&lckns=03&lckns=05&lckns=15&lckns=25&lckns=30&lckns=35&lckns=40&lckns=50&lckns=55&lckns=60&lckns=65&lckns=66&lckns=70&lckns=75&lckns=80&lckns=85&lckns=95'},
   },
   checkLibrary: function(div, formattedIsbn){
-    var url = 'https://www.kyotocitylib.jp/cgi-bin/Sopcsken.sh?p_mode=1&g_mode=0&ryno=&c_keye=&value=&list_cnt=10&mad_list_cnt=&brws=ncdet&ktyp9=shk|atk|spk|kek&itfg9=c&ser_type=0&stkb=&tgid=tyo:010A&sgid=spno&srsl1=1&srsl2=2&srsl3=3&tkey=' + formattedIsbn + '&lckns=' + libron[selectedPrefecture].libraries[selectedLibrary].code;
+    var isbnWithoutHyphen = formattedIsbn.replace(/(\d{1})-(\d{2})-(\d{6})-([\d{1}X])/, "$1$2$3$4");
+
+    var url = 'https://www.kyotocitylib.jp/cgi-bin/Sopcsken.sh?p_mode=1&g_mode=0&ryno=&c_keye=&value=&list_cnt=10&mad_list_cnt=&brws=ncdet&ktyp9=shk|atk|spk|kek&itfg9=c&ser_type=0&stkb=&tgid=tyo:010A&sgid=spno&srsl1=1&srsl2=2&srsl3=3&tkey=' + isbnWithoutHyphen + '&lckns=' + libron[selectedPrefecture].libraries[selectedLibrary].code;
     libron.tokyo._checkLibrary(div, url);
   },
   _checkLibrary: function(div, url) {
