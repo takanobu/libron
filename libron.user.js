@@ -138,7 +138,7 @@ function libraryLinky(){
   if (matched && matched[2]) {
     var isbn = matched[2];
     var div = document.getElementById('btAsinTitle').parentNode.parentNode;
-    libron[selectedPrefecture].checkLibrary(div, formatIsbn(isbn));
+    libron[selectedPrefecture].checkLibrary(div, isbn);
   } else if ((href.indexOf('/s/') != -1) || (href.indexOf('/exec/') != -1)){
     var divs = document.getElementsByTagName('div');
     for (var i = 0; i < divs.length; i++) {
@@ -148,7 +148,7 @@ function libraryLinky(){
         var matched = link.href.match(/\/dp\/([\dX]{10})\/ref/);
         if (matched && matched[1]) {
           var isbn = matched[1];
-          libron[selectedPrefecture].checkLibrary(div, formatIsbn(isbn));          
+          libron[selectedPrefecture].checkLibrary(div, isbn);
         }
       }
     }

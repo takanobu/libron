@@ -62,8 +62,8 @@ libron.tokyo = {
   'hinode':{'group':'町', 'name':'日の出町立図書館', 'code':'&sitechk001004=on'},
   'mizuho':{'group':'町', 'name':'瑞穂町立図書館', 'code':'&sitechk001013=on'}
   },  
-  checkLibrary: function(div, formattedIsbn){
-    url = "http://metro.tokyo.opac.jp/cgi-bin/j12crs2.cgi?partmod=0&frameid=0&srchmode=2&ccmp=FUZZY&scmp=SUBSTR&or_and02=AND&or_and03=AND&backimg=..%2Fcrsbackg.gif&headimg=logimg%2Fdefault.gif&inproxy=110&custuser=jcr004&custlogmod=1&bword0=&bword1=&bword2=&aword0=&aword1=&publisher=&fyear=&tyear=&maxhits=10&timeoutsec=60&isbn=" + formattedIsbn + libron[selectedPrefecture].libraries[selectedLibrary].code;
+  checkLibrary: function(div, isbn){
+    url = "http://metro.tokyo.opac.jp/cgi-bin/j12crs2.cgi?partmod=0&frameid=0&srchmode=2&ccmp=FUZZY&scmp=SUBSTR&or_and02=AND&or_and03=AND&backimg=..%2Fcrsbackg.gif&headimg=logimg%2Fdefault.gif&inproxy=110&custuser=jcr004&custlogmod=1&bword0=&bword1=&bword2=&aword0=&aword1=&publisher=&fyear=&tyear=&maxhits=10&timeoutsec=60&isbn=" + formatIsbn(isbn) + libron[selectedPrefecture].libraries[selectedLibrary].code;
     libron.tokyo._checkLibrary(div, url);
   },
   _checkLibrary: function(div, url) {
