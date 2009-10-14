@@ -2,7 +2,7 @@
 // @name          libron
 // @namespace     http://libron.net
 // @description	  Library Lookup from Amazon book listings. Currently supports libraries in Tokyo, Osaka and Kyoto.
-// @author        junya@champierre.com
+// @author        Junya Ishihara(http://github.com/champierre/)
 // @include       http://www.amazon.*
 // @require       http://github.com/champierre/libron/raw/master/libron.tokyo.js
 // @require       http://github.com/champierre/libron/raw/master/libron.osaka.js
@@ -10,7 +10,8 @@
 // using [ simple version of $X   ] (c) id:os0x
 //       [ relativeToAbsolutePath ] (c) id:Yuichirou
 //       [ parseHTML              ] copied from Pagerization (c) id:ofk
-// merged libron Osaka version (http://github.com/negachov/libron)
+// merged with [ libron Osaka version ] (c) negachov(http://github.com/negachov/)
+// merged with [ libron Kyoto version ] (c) Takanobu Nishimura(http://github.com/takanobu/)
 // thanks
 // ==/UserScript==
 

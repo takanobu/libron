@@ -1,5 +1,5 @@
 // @name          libron Osaka module
-// @author        http://github.com/negachov
+// @author        negachov(http://github.com/negachov/)
 
 var libron = libron ? libron : new Object();
 libron.osaka = {

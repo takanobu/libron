@@ -1,5 +1,5 @@
 // @name          libron Kyoto module
-// @author        http://github.com/takanobu
+// @author        Takanobu Nishimura(http://github.com/takanobu/)
 
 var libron = libron ? libron : new Object();
 libron.kyoto = {
