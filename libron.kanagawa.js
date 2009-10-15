@@ -1,10 +1,9 @@
 // @name libron Kanagawa module
 // @author Yukinori Suda(sudabon@gmail.com)
 
-GM_log("come on");
 var libron = libron ? libron : new Object();
 libron.kanagawa = {
-  version: "1.0",
+  version: '1.0',
   name: '神奈川県',
   groups: ['県立の図書館', 'Aグループ','Bグループ','政令指定都市','その他'],
   libraries: {
