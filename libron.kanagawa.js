@@ -65,7 +65,7 @@ libron.kanagawa = {
         } catch(e) {
           return;
         }
-        var elms = $X('//a[@/opac/CrossServlet?LIST=1&PAGE=1&SEARCHID]', htmldoc);
+        var elms = $X('//a[@target="_blank"]', htmldoc);
         if (elms.length > 0) {
           addLink(div, url);
         } else {
