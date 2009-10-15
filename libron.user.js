@@ -17,7 +17,7 @@
 
 var libron = libron ? libron : new Object();
 libron.version = "1.3";
-libron.prefectures = ['tokyo', 'osaka', 'kyoto'];
+libron.prefectures = ['tokyo', 'osaka', 'kyoto', 'kanagawa'];
 
 var okIcon = 'data:image/png;base64,'+
     'iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0'+
