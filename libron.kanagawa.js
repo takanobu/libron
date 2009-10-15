@@ -1,6 +1,6 @@
 // @name libron Kanagawa module
 // @author Yukinori Suda(sudabon@gmail.com)
-
+GM_log('debug message.');
 var libron = libron ? libron : new Object();
 libron.kanagawa = {
   version: '1.0',
