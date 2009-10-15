@@ -49,7 +49,7 @@ libron.kanagawa = {
   },
   checkLibrary: function(div, isbn){
     var url = 'http://www.klnet.pref.kanagawa.jp/opac/CrossServlet?KUBUN=TOSHO&kUBUN=ZASSHI&ISBN=' + isbn + '&' + libron[selectedPrefecture].libraries[selectedLibrary].code + 'MENUNO=8';
-    libron.kyoto._checkLibrary(div, url);
+    libron.kanagawa._checkLibrary(div, url);
   },
   _checkLibrary: function(div, url) {
     GM_xmlhttpRequest({
