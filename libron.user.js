@@ -244,9 +244,9 @@ function addNALink(div, url) {
   div.appendChild(link);
 }
 
-function addERLink(div) {
+function addERLink(div, url) {
   var link = document.createElement('div');
-  link.innerHTML = '<span style=\"font-size:90%; background-color:#ffffcc;\">エラーが発生しました</span>' +
+  link.innerHTML = '<span style=\"font-size:90%; background-color:#ffffcc;\">エラーが発生しました。<a target="_blank" href="' + url + '">&raquo;再度チェックする？</a></span>' +
     '<image src="' + ngIcon + '">';
   div.appendChild(link);
 }
