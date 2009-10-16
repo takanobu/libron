@@ -87,6 +87,7 @@ libron.kanagawa = {
               return;
             }
           }
+          GM_log(libron[selectedPrefecture].searchId.length);
           libron[selectedPrefecture].searchId.push(searchId);
           libron.kanagawa._checkLibrary(div, base, '?HITLIST=' + hitList + '&SEARCHID=', searchId);
         }
