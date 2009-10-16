@@ -7,7 +7,7 @@
 // @require       http://github.com/champierre/libron/raw/master/libron.tokyo.js
 // @require       http://github.com/champierre/libron/raw/master/libron.osaka.js
 // @require       http://github.com/takanobu/libron/raw/new_kyoto/libron.kyoto.js
-// @require       http://github.com/sudabon/libron/raw/master/libron.kanagawa.js
+// @require       http://blog.sudabon.com/libron.kanagawa.js
 // using [ simple version of $X   ] (c) id:os0x
 //       [ relativeToAbsolutePath ] (c) id:Yuichirou
 //       [ parseHTML              ] copied from Pagerization (c) id:ofk
