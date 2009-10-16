@@ -47,6 +47,7 @@ libron.kanagawa = {
   'koken_':{'group':'その他', 'name':'神奈川県立保健福祉大学の図書館', 'code':'LIBSEL4','key':'HOKEN_'},
   'tokoda':{'group':'その他', 'name':'東京工業大学附属図書館', 'code':'LIBSEL4','key':'TOKODA'}
   },
+  searchId : [],
   checkLibrary: function(div, isbn){
     var base = 'http://www.klnet.pref.kanagawa.jp/opac/CrossServlet';
     var url = '?KUBUN=TOSHO&KUBUN=ZASSHI&ISBN=' + isbn + '&' + libron[selectedPrefecture].libraries[selectedLibrary].code + '=' + libron[selectedPrefecture].libraries[selectedLibrary].key + '&MENUNO=8&SEARCH=%E6%A4%9C%E7%B4%A2&TIMEOUT=30';
@@ -80,6 +81,13 @@ libron.kanagawa = {
 			return;
 		}
         if (searchId.length > 0 && hitList.length > 0) {
+          for (var i in libron[selectedPrefecture].serchId) {
+            if (i == searchId) {
+              addERLink(div);
+              return;
+            }
+          }
+          libron[selectedPrefecture].serchId.push(searchId);
           libron.kanagawa._checkLibrary(div, base, '?HITLIST=' + hitList + '&SEARCHID=', searchId, base + url);
         }
       },

@@ -244,6 +244,13 @@ function addNALink(div, url) {
   div.appendChild(link);
 }
 
+function addERLink(div) {
+  var link = document.createElement('div');
+  link.innerHTML = '<span style=\"font-size:90%; background-color:#ffffcc;\">エラーが発生しました</span>' +
+    '<image src="' + ngIcon + '">';
+  div.appendChild(link);
+}
+
 function savePrefecture(value){
   GM_setValue("prefecture", value);
 }
