@@ -83,7 +83,7 @@ libron.kanagawa = {
         if (searchId.length > 0 && hitList.length > 0) {
           for (var i = 0; i < libron[selectedPrefecture].searchId.length; i++) {
             if (libron[selectedPrefecture].searchId[i] == searchId) {
-              addERLink(div);
+              addERLink(div, base + '?HITLIST=' + hitList + '&SEARCHID=' + searchId);
               return;
             }
           }
