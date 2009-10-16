@@ -65,12 +65,12 @@ libron.kanagawa = {
         } catch(e) {
           return;
         }
-        var elms = htmldoc.match(/HISTLIST=\d+&SEARCHID=\d+/);
-        if (elms.length > 0) {
-          libron.kanagawa._checkLibrary(div, 'http://www.klnet.pref.kanagawa.jp/opac/CrossServlet?' + elms);
+        var searchId = $X('//input[@type="hidden" and @name="SEARCHID"]', htmldoc);
+        var hitList = $X('//input[@type="hidden" and @name="HITLIST"]', htmldoc);
+        if (searchId.length > 0 && hitList.length > 0) {
+          libron.kanagawa._checkLibrary(div, 'http://www.klnet.pref.kanagawa.jp/opac/CrossServlet?HITLIST=' + hitList + '&SEARCHID=' + searchId);
         }
       },
-      data: data
     });
   },
   _checkLibrary: function(div, url) {
