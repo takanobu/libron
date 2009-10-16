@@ -82,12 +82,12 @@ libron.kanagawa = {
 		}
         if (searchId.length > 0 && hitList.length > 0) {
           for (var i in libron[selectedPrefecture].searchId) {
+          GM_log(i);
             if (i == searchId) {
               addERLink(div);
               return;
             }
           }
-          GM_log(libron[selectedPrefecture].searchId.length);
           libron[selectedPrefecture].searchId.push(searchId);
           libron.kanagawa._checkLibrary(div, base, '?HITLIST=' + hitList + '&SEARCHID=', searchId);
         }
