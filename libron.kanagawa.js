@@ -48,7 +48,7 @@ libron.kanagawa = {
   'tokoda':{'group':'その他', 'name':'東京工業大学附属図書館', 'code':'LIBSEL4=TOKODA'}
   },
   checkLibrary: function(div, isbn){
-    var url = 'http://www.klnet.pref.kanagawa.jp/opac/CrossServlet?KUBUN=TOSHO&KUBUN=ZASSHI&ISBN=' + isbn + '&' + libron[selectedPrefecture].libraries[selectedLibrary].code + '&MENUNO=8&SEARCH=%E6%A4%9C%E7%B4%A2&TIMEOUT=30';
+    var url = 'http://www.klnet.pref.kanagawa.jp/opac/CrossServlet?KUBUN=TOSHO&KUBUN=ZASSHI&ISBN=' + isbn + '&' + libron[selectedPrefecture].libraries[selectedLibrary].code + '&MENUNO=8&SEARCH=%E6%A4%9C%E7%B4%A2&TIMEOUT=3';
     libron.kanagawa._getRedirectUrl(div, url);
   },
   _getRedirectUrl: function(div, url){
