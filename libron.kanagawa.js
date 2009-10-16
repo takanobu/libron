@@ -111,7 +111,7 @@ libron.kanagawa = {
         try {
 			var thisNode = result.iterateNext();
 			while (thisNode) {
-				if (thisNode.href == base + '?LIST=1&LIB='+libron[selectedPrefecture].libraries[selectedLibrary].key+'&PAGE=1&SEARCHID='+searchId) {
+				if (thisNode.href == base + '?LIST=1&PAGE=1&SEARCHID='+searchId) {
 					addLink(div, base + url + searchId);
 					return;
 				}
