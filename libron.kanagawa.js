@@ -11,7 +11,7 @@ libron.kanagawa = {
   'yokosu':{'group':'Aグループ', 'name':'横須賀市図書館', 'code':'LIBSEL1','key':'YOKOSU'},
   'odawar':{'group':'Aグループ', 'name':'小田原市の図書館', 'code':'LIBSEL1','key':'ODAWAR'},
   'zushi_':{'group':'Aグループ', 'name':'逗子市立図書館', 'code':'LIBSEL1','key':'ZUSHI_'},
-  'sagami':{'group':'Aグループ', 'name':'相模原市の図書館（準備中）', 'code':'LIBSEL1','key':'SAGAMI'},
+  //'sagami':{'group':'Aグループ', 'name':'相模原市の図書館（準備中）', 'code':'LIBSEL1','key':'SAGAMI'},
   'miura_':{'group':'Aグループ', 'name':'三浦市図書館', 'code':'LIBSEL1','key':'MIURA_'},
   'yamao':{'group':'Aグループ', 'name':'大和市立図書館', 'code':'LIBSEL1','key':'YAMATO'},
   'isehar':{'group':'Aグループ', 'name':'伊勢原市立図書館', 'code':'LIBSEL1','key':'ISEHAR'},
@@ -21,11 +21,11 @@ libron.kanagawa = {
   'hayama':{'group':'Aグループ', 'name':'葉山町立図書館', 'code':'LIBSEL1','key':'HAYAMA'},
   'hakone':{'group':'Aグループ', 'name':'箱根町社会教育センター図書室', 'code':'LIBSEL1','key':'HAKONE'},
   'manadu':{'group':'Aグループ', 'name':'まなづる図書館', 'code':'LIBSEL1','key':'MANADU'},
-  'yugawa':{'group':'Aグループ', 'name':'湯河原町立図書館', 'code':'LIBSEL1','key':'YUGAWA'},
-  'aikawa':{'group':'Aグループ', 'name':'愛川町図書館', 'code':'LIBSEL1','key':'AIKAWA'},
+  //'yugawa':{'group':'Aグループ', 'name':'湯河原町立図書館', 'code':'LIBSEL1','key':'YUGAWA'},
+  //'aikawa':{'group':'Aグループ', 'name':'愛川町図書館', 'code':'LIBSEL1','key':'AIKAWA'},
   'kiyoka':{'group':'Aグループ', 'name':'清川村図書室', 'code':'LIBSEL1','key':'KIYOKA'},
   'hirats':{'group':'Bグループ', 'name':'平塚市図書館', 'code':'LIBSEL2','key':'HIRATS'},
-  'kamaku':{'group':'Bグループ', 'name':'鎌倉市図書館', 'code':'LIBSEL2','key':'KAMAKU'},
+  //'kamaku':{'group':'Bグループ', 'name':'鎌倉市図書館', 'code':'LIBSEL2','key':'KAMAKU'},
   'fujisa':{'group':'Bグループ', 'name':'藤沢市図書館', 'code':'LIBSEL2','key':'FUJISA'},
   'chigas':{'group':'Bグループ', 'name':'茅ケ崎市立図書館', 'code':'LIBSEL2','key':'CHIGAS'},
   'hadano':{'group':'Bグループ', 'name':'秦野市立図書館', 'code':'LIBSEL2','key':'HADANO'},
@@ -33,19 +33,19 @@ libron.kanagawa = {
   'minami':{'group':'Bグループ', 'name':'南足柄市立図書館', 'code':'LIBSEL2','key':'MINAMI'},
   'samuka':{'group':'Bグループ', 'name':'寒川総合図書館', 'code':'LIBSEL2','key':'SAMUKA'},
   'oiso__':{'group':'Bグループ', 'name':'大磯町立図書館', 'code':'LIBSEL2','key':'OISO__'},
-  'minomi':{'group':'Bグループ', 'name':'二宮町図書館', 'code':'LIBSEL2','key':'NINOMI'},
+  //'minomi':{'group':'Bグループ', 'name':'二宮町図書館', 'code':'LIBSEL2','key':'NINOMI'},
   'nakai_':{'group':'Bグループ', 'name':'中井町立井ノ口公民館', 'code':'LIBSEL2','key':'NAKAI_'},
   'ooi___':{'group':'Bグループ', 'name':'大井町図書館', 'code':'LIBSEL2','key':'OOI___'},
   'matsud':{'group':'Bグループ', 'name':'松田町図書館', 'code':'LIBSEL2','key':'MATSUD'},
   'yamaki':{'group':'Bグループ', 'name':'山北町立中央公民館図書室', 'code':'LIBSEL2','key':'YAMAKI'},
-  'kaisei':{'group':'Bグループ', 'name':'開成町民センター図書室', 'code':'LIBSEL2','key':'KAISEI'},
+  //'kaisei':{'group':'Bグループ', 'name':'開成町民センター図書室', 'code':'LIBSEL2','key':'KAISEI'},
   'yokoha':{'group':'政令指定都市', 'name':'横浜市図書館', 'code':'LIBSEL3','key':'YOKOHA'},
-  'kawasa':{'group':'政令指定都市', 'name':'川崎市立図書館', 'code':'LIBSEL3','key':'KAWASA'},
-  'jyosei':{'group':'その他', 'name':'かながわ女性センター図書館', 'code':'LIBSEL4','key':'JYOSEI'},
-  'kensei':{'group':'その他', 'name':'県政情報センター', 'code':'LIBSEL4','key':'KENSEI'},
-  'yokoun':{'group':'その他', 'name':'横浜国立大学附属図書館', 'code':'LIBSEL4','key':'YOKOUN'},
+  //'kawasa':{'group':'政令指定都市', 'name':'川崎市立図書館', 'code':'LIBSEL3','key':'KAWASA'},
+  //'jyosei':{'group':'その他', 'name':'かながわ女性センター図書館', 'code':'LIBSEL4','key':'JYOSEI'},
+  //'kensei':{'group':'その他', 'name':'県政情報センター', 'code':'LIBSEL4','key':'KENSEI'},
+  //'yokoun':{'group':'その他', 'name':'横浜国立大学附属図書館', 'code':'LIBSEL4','key':'YOKOUN'},
   'koken_':{'group':'その他', 'name':'神奈川県立保健福祉大学の図書館', 'code':'LIBSEL4','key':'HOKEN_'},
-  'tokoda':{'group':'その他', 'name':'東京工業大学附属図書館', 'code':'LIBSEL4','key':'TOKODA'}
+  //'tokoda':{'group':'その他', 'name':'東京工業大学附属図書館', 'code':'LIBSEL4','key':'TOKODA'}
   },
   searchId : [],
   checkLibrary: function(div, isbn){
@@ -110,6 +110,7 @@ libron.kanagawa = {
         var result = htmldoc.evaluate('//a', htmldoc, null, XPathResult.ANY_TYPE, null);
         try {
 			var thisNode = result.iterateNext();
+			var error = false;
 			while (thisNode) {
 				if (thisNode.href == base + '?LIST=1&PAGE=1&SEARCHID='+searchId) {
 					addLink(div, base + url + searchId);
