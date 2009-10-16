@@ -81,6 +81,7 @@ libron.kanagawa = {
 			return;
 		}
         if (searchId.length > 0 && hitList.length > 0) {
+        GM_log(libron[selectedPrefecture].searchId);
           for (var i in libron[selectedPrefecture].searchId) {
           GM_log(i);
             if (i == searchId) {
