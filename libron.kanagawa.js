@@ -68,7 +68,7 @@ libron.kanagawa = {
         }
         var elms = htmldoc.match(/HISTLIST=\d+&SEARCHID=\d+/);
         if (elms.length > 0) {
-          libron.kanagawa._checkLibrary(div, 'http://www.klnet.pref.kanagawa.jp/opac/CrossServlet?' + elms;
+          libron.kanagawa._checkLibrary(div, 'http://www.klnet.pref.kanagawa.jp/opac/CrossServlet?' + elms);
         }
       },
       data: data
