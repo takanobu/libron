@@ -66,9 +66,9 @@ libron.kanagawa = {
           return;
         }
         var searchId = $X('//INPUT[@TYPE="HIDDEN" and @NAME="SEARCHID"]', htmldoc);
-        GM_log('searchId='+searchId);
+        GM_log('searchId='+searchId[0].value);
         var hitList = $X('//INPUT[@TYPE="HIDDEN" and @NAME="HITLIST"]', htmldoc);
-        GM_log('hitList='+hitList);
+        GM_log('hitList='+hitList[0].value);
         if (searchId.length > 0 && hitList.length > 0) {
           libron.kanagawa._checkLibrary(div, 'http://www.klnet.pref.kanagawa.jp/opac/CrossServlet?HITLIST=' + hitList + '&SEARCHID=' + searchId);
         }
