@@ -81,7 +81,7 @@ libron.kanagawa = {
 			return;
 		}
         if (searchId.length > 0 && hitList.length > 0) {
-          for (var i in libron[selectedPrefecture].serchId) {
+          for (var i in libron[selectedPrefecture].searchId) {
             if (i == searchId) {
               addERLink(div);
               return;
