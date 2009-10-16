@@ -8,7 +8,7 @@ libron.kanagawa = {
   name: '神奈川県',
   groups: ['県立の図書館', 'Aグループ','Bグループ','政令指定都市','その他'],
   libraries: {
-  'kenrit':{'group':'県立', 'name':'県立の図書館', 'code':'LIBSEL0=KENRIT'},
+  'kenrit':{'group':'県立の図書館', 'name':'県立の図書館', 'code':'LIBSEL0=KENRIT'},
   'yokosu':{'group':'Aグループ', 'name':'横須賀市図書館', 'code':'LIBSEL1=YOKOSU'},
   'odawar':{'group':'Aグループ', 'name':'小田原市の図書館', 'code':'LIBSEL1=ODAWAR'},
   'zushi_':{'group':'Aグループ', 'name':'逗子市立図書館', 'code':'LIBSEL1=ZUSHI_'},
