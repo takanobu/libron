@@ -50,7 +50,7 @@ libron.kanagawa = {
   searchId : [],
   checkLibrary: function(div, isbn){
     var base = 'http://www.klnet.pref.kanagawa.jp/opac/CrossServlet';
-    var url = '?KUBUN=TOSHO&KUBUN=ZASSHI&ISBN=' + isbn + '&' + libron[selectedPrefecture].libraries[selectedLibrary].code + '=' + libron[selectedPrefecture].libraries[selectedLibrary].key + '&MENUNO=8&SEARCH=%E6%A4%9C%E7%B4%A2&TIMEOUT=30';
+    var url = '?KUBUN=TOSHO&KUBUN=ZASSHI&ISBN=' + isbn + '&' + libron.kanagawa.libraries[selectedLibrary].code + '=' + libron.kanagawa.libraries[selectedLibrary].key + '&MENUNO=8&SEARCH=%E6%A4%9C%E7%B4%A2&TIMEOUT=30';
     libron.kanagawa._getRedirectUrl(div, base, url);
   },
   _getRedirectUrl: function(div, base, url){
@@ -67,19 +67,19 @@ libron.kanagawa = {
         var searchId = '';
         var hitList = '';
         try {
-			var thisNode = result.iterateNext();
-			while (thisNode) {
-				if (thisNode.name == 'SEARCHID') {
-					searchId = thisNode.value;
-				}
-				if (thisNode.name == 'HITLIST') {
-					hitList = thisNode.value;
-				}
-				thisNode = result.iterateNext();
-			}	
-		} catch (e) {
-			return;
-		}
+          var thisNode = result.iterateNext();
+          while (thisNode) {
+            if (thisNode.name == 'SEARCHID') {
+              searchId = thisNode.value;
+            }
+            if (thisNode.name == 'HITLIST') {
+              hitList = thisNode.value;
+            }
+            thisNode = result.iterateNext();
+          }
+        } catch (e) {
+          return;
+        }
         if (searchId.length > 0 && hitList.length > 0) {
           for (var i = 0; i < libron[selectedPrefecture].searchId.length; i++) {
             if (libron[selectedPrefecture].searchId[i] == searchId) {
@@ -109,18 +109,18 @@ libron.kanagawa = {
         }
         var result = htmldoc.evaluate('//a', htmldoc, null, XPathResult.ANY_TYPE, null);
         try {
-			var thisNode = result.iterateNext();
-			var error = false;
-			while (thisNode) {
-				if (thisNode.href == base + '?LIST=1&PAGE=1&SEARCHID='+searchId) {
-					addLink(div, base + url + searchId);
-					return;
-				}
-				thisNode = result.iterateNext();
-			}	
-		} catch (e) {
-			return;
-		}
+          var thisNode = result.iterateNext();
+          var error = false;
+          while (thisNode) {
+            if (thisNode.href == base + '?LIST=1&PAGE=1&SEARCHID='+searchId) {
+              addLink(div, base + url + searchId);
+              return;
+            }
+            thisNode = result.iterateNext();
+          }
+        } catch (e) {
+          return;
+        }
         addNALink(div, base + url + searchId);
       }
     });
