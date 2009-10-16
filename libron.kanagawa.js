@@ -89,12 +89,12 @@ libron.kanagawa = {
           }
           GM_log(libron[selectedPrefecture].searchId.length);
           libron[selectedPrefecture].searchId.push(searchId);
-          libron.kanagawa._checkLibrary(div, base, '?HITLIST=' + hitList + '&SEARCHID=', searchId, base + url);
+          libron.kanagawa._checkLibrary(div, base, '?HITLIST=' + hitList + '&SEARCHID=', searchId);
         }
       },
     });
   },
-  _checkLibrary: function(div, base, url, searchId, refer) {
+  _checkLibrary: function(div, base, url, searchId) {
     GM_xmlhttpRequest({
       method:"GET",
       url: base + url + searchId,
@@ -113,7 +113,7 @@ libron.kanagawa = {
 			var thisNode = result.iterateNext();
 			while (thisNode) {
 				if (thisNode.href == base + '?LIST=1&LIB='+libron[selectedPrefecture].libraries[selectedLibrary].key+'&PAGE=1&SEARCHID='+searchId) {
-					addLink(div, refer);
+					addLink(div, base + url + searchId);
 					return;
 				}
 				thisNode = result.iterateNext();
@@ -121,7 +121,7 @@ libron.kanagawa = {
 		} catch (e) {
 			return;
 		}
-        addNALink(div, refer);
+        addNALink(div, base + url + searchId);
       }
     });
   }
