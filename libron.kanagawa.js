@@ -65,6 +65,7 @@ libron.kanagawa = {
         } catch(e) {
           return;
         }
+        GM_log(htmldoc);
         var searchId = $X('//INPUT[@TYPE="HIDDEN" and @NAME="SEARCHID"]', htmldoc);
         GM_log('searchId='+searchId.value);
         var hitList = $X('//INPUT[@TYPE="HIDDEN" and @NAME="HITLIST"]', htmldoc);
