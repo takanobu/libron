@@ -49,8 +49,30 @@ libron.kanagawa = {
   'tokoda':{'group':'その他', 'name':'東京工業大学附属図書館', 'code':'LIBSEL4=TOKODA'}
   },
   checkLibrary: function(div, isbn){
-    var url = 'http://www.klnet.pref.kanagawa.jp/opac/CrossServlet?KUBUN=TOSHO&kUBUN=ZASSHI&ISBN=' + isbn + '&' + libron[selectedPrefecture].libraries[selectedLibrary].code + 'MENUNO=8';
-    libron.kanagawa._checkLibrary(div, url);
+    var url = 'http://www.klnet.pref.kanagawa.jp/opac/CrossServlet?KUBUN=TOSHO&KUBUN=ZASSHI&ISBN=' + isbn + '&' + libron[selectedPrefecture].libraries[selectedLibrary].code + '&MENUNO=8&SEARCH=%E6%A4%9C%E7%B4%A2&TIMEOUT=30';
+    libron.kanagawa._getRedirectUrl(div, url);
+  },
+  _getRedirectUrl: function(div, url){
+    GM_xmlhttpRequest({
+      method:"GET",
+      url: url,
+      onload:function(res){
+        try {
+          var htmldoc = parseHTML(res.responseText);
+          if(res.finalUrl){
+            this.requestURL = res.finalUrl;
+          }
+          relativeToAbsolutePath(htmldoc, this.requestURL);
+        } catch(e) {
+          return;
+        }
+        var elms = htmldoc.match(/HISTLIST=\d+&SEARCHID=\d+/);
+        if (elms.length > 0) {
+          libron.kanagawa._checkLibrary(div, 'http://www.klnet.pref.kanagawa.jp/opac/CrossServlet?' + elms;
+        }
+      },
+      data: data
+    });
   },
   _checkLibrary: function(div, url) {
     GM_xmlhttpRequest({
