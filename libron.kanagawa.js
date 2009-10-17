@@ -7,6 +7,7 @@ libron.kanagawa = {
   name: '神奈川県',
   groups: ['県立の図書館', 'Aグループ','Bグループ','政令指定都市','その他'],
   libraries: {
+  // ISBNで検索すると、エラーを返す図書館をコメントアウト
   'kenrit':{'group':'県立の図書館', 'name':'県立の図書館', 'code':'LIBSEL0', 'key':'KENRIT'},
   'yokosu':{'group':'Aグループ', 'name':'横須賀市図書館', 'code':'LIBSEL1','key':'YOKOSU'},
   'odawar':{'group':'Aグループ', 'name':'小田原市の図書館', 'code':'LIBSEL1','key':'ODAWAR'},
@@ -50,10 +51,13 @@ libron.kanagawa = {
   searchId : [],
   checkLibrary: function(div, isbn){
     var base = 'http://www.klnet.pref.kanagawa.jp/opac/CrossServlet';
-    var url = '?KUBUN=TOSHO&KUBUN=ZASSHI&ISBN=' + isbn + '&' + libron.kanagawa.libraries[selectedLibrary].code + '=' + libron.kanagawa.libraries[selectedLibrary].key + '&MENUNO=8&SEARCH=%E6%A4%9C%E7%B4%A2&TIMEOUT=30';
+    var url = '?KUBUN=TOSHO&KUBUN=ZASSHI&ISBN=' + isbn + '&' + libron.kanagawa.libraries[selectedLibrary].code + '=' + libron.kanagawa.libraries[selectedLibrary].key + '&MENUNO=8&SEARCH=%E6%A4%9C%E7%B4%A2&TIMEOUT=15';
+    // タイムアウト値を15秒から45秒で散らしても効果なし
+    //var url = '?KUBUN=TOSHO&KUBUN=ZASSHI&ISBN=' + isbn + '&' + libron.kanagawa.libraries[selectedLibrary].code + '=' + libron.kanagawa.libraries[selectedLibrary].key + '&MENUNO=8&SEARCH=%E6%A4%9C%E7%B4%A2&TIMEOUT=' + Math.floor(Math.random()*30+15);
     libron.kanagawa._getRedirectUrl(div, base, url);
   },
   _getRedirectUrl: function(div, base, url){
+    setTimeout(function(){
     GM_xmlhttpRequest({
       method:"GET",
       url: base + url,
@@ -81,6 +85,8 @@ libron.kanagawa = {
           return;
         }
         if (searchId.length > 0 && hitList.length > 0) {
+          // 図書検索サーバのバグの対処
+          // 重複したsearchIdはエラー処理
           for (var i = 0; i < libron[selectedPrefecture].searchId.length; i++) {
             if (libron[selectedPrefecture].searchId[i] == searchId) {
               addERLink(div, base + url);
@@ -88,10 +94,13 @@ libron.kanagawa = {
             }
           }
           libron[selectedPrefecture].searchId.push(searchId);
+          // ここまで
+          // ただし、最初に受信した応答が正しいとは限らないという問題が残っている
           libron.kanagawa._checkLibrary(div, base, '?HITLIST=' + hitList + '&SEARCHID=', searchId);
         }
       },
     });
+    }, Math.floor(Math.random()*10000));
   },
   _checkLibrary: function(div, base, url, searchId) {
     GM_xmlhttpRequest({
