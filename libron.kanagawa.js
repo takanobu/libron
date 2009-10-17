@@ -52,8 +52,6 @@ libron.kanagawa = {
   checkLibrary: function(div, isbn){
     var base = 'http://www.klnet.pref.kanagawa.jp/opac/CrossServlet';
     var url = '?KUBUN=TOSHO&KUBUN=ZASSHI&ISBN=' + isbn + '&' + libron.kanagawa.libraries[selectedLibrary].code + '=' + libron.kanagawa.libraries[selectedLibrary].key + '&MENUNO=8&SEARCH=%E6%A4%9C%E7%B4%A2&TIMEOUT=15';
-    // タイムアウト値を15秒から45秒で散らしても効果なし
-    //var url = '?KUBUN=TOSHO&KUBUN=ZASSHI&ISBN=' + isbn + '&' + libron.kanagawa.libraries[selectedLibrary].code + '=' + libron.kanagawa.libraries[selectedLibrary].key + '&MENUNO=8&SEARCH=%E6%A4%9C%E7%B4%A2&TIMEOUT=' + Math.floor(Math.random()*30+15);
     libron.kanagawa._getRedirectUrl(div, base, url);
   },
   _getRedirectUrl: function(div, base, url){
