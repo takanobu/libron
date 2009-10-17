@@ -146,7 +146,7 @@ function libraryLinky(){
       var div = divs[i];
       if (div.className.indexOf("productTitle") != -1) {
         var link = div.getElementsByTagName('a')[0];
-        if (link.length > 0) {
+        if (link) {
           var matched = link.href.match(/\/dp\/([\dX]{10})\/ref/);
           if (matched && matched[1]) {
             var isbn = matched[1];
