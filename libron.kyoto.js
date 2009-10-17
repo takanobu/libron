@@ -3,7 +3,6 @@
 
 var libron = libron ? libron : new Object();
 libron.kyoto = {
-  version: "1.0",
   name: '京都市',
   groups: ['区', '市'],
   libraries: {

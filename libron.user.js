@@ -1,23 +1,25 @@
 // ==UserScript==
 // @name          libron
 // @namespace     http://libron.net
-// @description	  Library Lookup from Amazon book listings. Currently supports libraries in Tokyo, Osaka and Kyoto.
+// @description	  Library Lookup from Amazon book listings. Currently supports libraries in Tokyo, Osaka, Kyoto and Kanagawa.
 // @author        Junya Ishihara(http://github.com/champierre/)
 // @include       http://www.amazon.*
 // @require       http://github.com/champierre/libron/raw/master/libron.tokyo.js
 // @require       http://github.com/champierre/libron/raw/master/libron.osaka.js
-// @require       http://github.com/takanobu/libron/raw/new_kyoto/libron.kyoto.js
+// @require       http://github.com/champierre/libron/raw/master/libron.kyoto.js
+// @require       http://github.com/champierre/libron/raw/master/libron.kanagawa.js
 // using [ simple version of $X   ] (c) id:os0x
 //       [ relativeToAbsolutePath ] (c) id:Yuichirou
 //       [ parseHTML              ] copied from Pagerization (c) id:ofk
 // merged with [ libron Osaka version ] (c) negachov(http://github.com/negachov/)
 // merged with [ libron Kyoto version ] (c) Takanobu Nishimura(http://github.com/takanobu/)
+// merged with [ libron Kanagawa version ] (c) Yukinori Suda(http://github.com/sudabon/)
 // thanks
 // ==/UserScript==
 
 var libron = libron ? libron : new Object();
-libron.version = "1.3";
-libron.prefectures = ['tokyo', 'osaka', 'kyoto'];
+libron.version = "1.4";
+libron.prefectures = ['tokyo', 'osaka', 'kyoto', 'kanagawa'];
 
 var okIcon = 'data:image/png;base64,'+
     'iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0'+
@@ -145,10 +147,12 @@ function libraryLinky(){
       var div = divs[i];
       if (div.className.indexOf("productTitle") != -1) {
         var link = div.getElementsByTagName('a')[0];
-        var matched = link.href.match(/\/dp\/([\dX]{10})\/ref/);
-        if (matched && matched[1]) {
-          var isbn = matched[1];
-          libron[selectedPrefecture].checkLibrary(div, isbn);
+        if (link) {
+          var matched = link.href.match(/\/dp\/([\dX]{10})\/ref/);
+          if (matched && matched[1]) {
+            var isbn = matched[1];
+            libron[selectedPrefecture].checkLibrary(div, isbn);
+          }
         }
       }
     }
@@ -240,6 +244,12 @@ function addNALink(div, url) {
   var link = document.createElement('div');
   link.innerHTML = '<span style=\"font-size:90%; background-color:#ffffcc;\"><a target="_blank" href="' + url + '">&raquo; ' + libron[selectedPrefecture].libraries[selectedLibrary].name + 'には見つかりません</a></span>' +
     '<image src="' + ngIcon + '">';
+  div.appendChild(link);
+}
+
+function addERLink(div, url) {
+  var link = document.createElement('div');
+  link.innerHTML = '<span style=\"font-size:90%; background-color:#ffffcc;\">エラーが発生しました' + '<image src="' + ngIcon + '">' + '<a target="_blank" href="' + url + '">&raquo;検索サイトでチェックする？</a></span>';
   div.appendChild(link);
 }
 

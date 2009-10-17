@@ -3,7 +3,6 @@
 
 var libron = libron ? libron : new Object();
 libron.osaka = {
-  version: "1.0",
   name: '大阪府',
   groups: ['大阪の公共図書館','北摂','北・中河内','南河内','泉州','大阪の類縁機関','近畿の公共図書館','全国サイト'],
   libraries: {
