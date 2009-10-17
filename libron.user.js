@@ -146,10 +146,12 @@ function libraryLinky(){
       var div = divs[i];
       if (div.className.indexOf("productTitle") != -1) {
         var link = div.getElementsByTagName('a')[0];
-        var matched = link.href.match(/\/dp\/([\dX]{10})\/ref/);
-        if (matched && matched[1]) {
-          var isbn = matched[1];
-          libron[selectedPrefecture].checkLibrary(div, isbn);
+        if (link.length > 0) {
+          var matched = link.href.match(/\/dp\/([\dX]{10})\/ref/);
+          if (matched && matched[1]) {
+            var isbn = matched[1];
+            libron[selectedPrefecture].checkLibrary(div, isbn);
+          }
         }
       }
     }
